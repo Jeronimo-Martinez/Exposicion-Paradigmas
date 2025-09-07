@@ -1,0 +1,2 @@
+# Exposicion-Paradigmas
+Paradigma asignado : ********
