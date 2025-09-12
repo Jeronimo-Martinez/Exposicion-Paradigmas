@@ -1,2 +1,2 @@
-# Exposicion-Paradigmas
+# Exposicion-Paradigma Funcional(Haskell) 
 Paradigma asignado : ********
