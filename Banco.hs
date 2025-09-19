@@ -1,15 +1,15 @@
 -- Se define el tipo de dato cliente 
 data Cliente = Cliente
-  { idCliente :: Int       -- Identificador
+  { nombre :: String       -- Nombre
   , cuenta    :: String    -- Número de cuenta
   , saldo     :: Float     -- Saldo actual
   } deriving (Show, Eq)
 
 
 clientesIniciales =
-    [ Cliente 1 "001" 1000.0
-    , Cliente 2 "002"  500.0
-    , Cliente 3 "003"  200.0
+    [ Cliente "Juan" "001" 1000.0
+    , Cliente "Ivana" "002"  500.0
+    , Cliente "Carlos" "003"  200.0
     ]
 
 --Esta es la función depositar
@@ -21,4 +21,20 @@ depositar numCuenta monto clientes = -- Recibe una cuenta, el monto y la lista d
 
 
 -- Se crea la función retirar
-retirar :: []
+retirar :: String -> Float -> [Cliente] -> [Cliente]
+
+-- se ponen los nombres de los parámetros y se usa la función map
+retirar numCuenta montoRetiro clientes = map intentarRetiro clientes  -- Uso de map: Se recorre la lista de clientes aplicando la función auxiliar intentarRetiro a cada cliente
+  where
+    intentarRetiro cliente
+      -- Este es el primer caso: Si el monto a retirar es negativo o cero
+
+      | montoRetiro <= 0 = cliente    -- Si el monto es negativo o cero, retorna el cliente
+
+      -- Este es el segundo caso: Si se encuentra al cliente y tiene saldo suficiente
+
+      | numCuenta == cuenta cliente && saldo cliente >= montoRetiro = cliente {saldo = saldo cliente - montoRetiro}  -- Si se cumple el segundo caso, se copia el cliente pero con el dato saldo cambiado y se retorna
+
+      -- En cualquier otro caso ...
+
+      | otherwise = cliente  -- Se retorna el cliente
