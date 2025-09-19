@@ -38,3 +38,24 @@ retirar numCuenta montoRetiro clientes = map intentarRetiro clientes  -- Uso de 
       -- En cualquier otro caso ...
 
       | otherwise = cliente  -- Se retorna el cliente
+
+transferencia :: String -> String -> Float -> [Cliente] -> [Cliente] 
+
+transferencia numCuentaEnvia numCuentaRec monto clientes 
+
+ | monto <= 0 = clientes  -- Si el monto es negativo o cero, se retorna la lista sin cambios 
+
+ | not(saldoSuficiente numCuentaEnvia monto clientes) = clientes --Si el saldo del remitente no es suficiente , se retorna la lista sin cambios
+   
+   -- En cualquier otro caso (el monto no es cero y hay suficiente saldo ... 
+   
+ | otherwise  = depositar numCuentaRec monto (retirar numCuentaEnvia monto clientes) -- se llama a las funciones depositar y retirar para debitar y consignar el monto que tambien crean la nueva lista modificada y la retornan 
+
+  where -- definicion de saldoSuficiente
+    saldoSuficiente buscarRem monto clientes = 
+      -- case evalua el resultado del filtrado 
+      case filter (\remitente -> cuenta remitente == buscarRem) clientes of  -- la funcion filter filtra la lista segun el numero de cuenta y monto 
+        (remitente:_)  -> saldo remitente >= monto -- si filter retorna un cliente retorna True (comparacion =>)
+        [] -> False -- si el filtrado retorna una lista vacia , se retorna False
+
+  
