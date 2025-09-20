@@ -37,7 +37,7 @@ depositar numCuenta monto clientes =
       | otherwise                   = cliente
 
 
--- Se crea la función retirar
+-- Se declara el tipo de datos que recibe y devuelve la función retirar
 retirar :: String -> Float -> [Cliente] -> [Cliente]
 
 -- se ponen los nombres de los parámetros y se usa la función map
