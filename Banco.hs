@@ -82,7 +82,7 @@ consultarSaldo cuentaBuscar listaClientes
   -- Caso 1: si la lista de clientes está vacía
   | null listaClientes = "No hay clientes registrados"
   -- Continuación de la función consultarSaldo
-  - Caso 2: si la lista no está vacía, se busca la cuenta
+  -- Caso 2: si la lista no está vacía, se busca la cuenta
   | otherwise =
       case filter (\cliente -> cuenta cliente == cuentaBuscar) listaClientes of -- la funcion filter busca en la lista de clientes los que tengan el mismo número de cuenta que cuentaBuscar
         (clienteEncontrado : _) -> -- Si filter devuelve al menos un cliente mostramos un mensaje con su saldo
