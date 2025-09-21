@@ -58,4 +58,11 @@ transferencia numCuentaEnvia numCuentaRec monto clientes
         (remitente:_)  -> saldo remitente >= monto -- si filter retorna un cliente retorna True (comparacion =>)
         [] -> False -- si el filtrado retorna una lista vacia , se retorna False
 
+
+-- Definimos la función consultarSaldo
+consultarSaldo :: String -> [Cliente] -> String
+consultarSaldo cuentaBuscar listaClientes
+  -- Caso 1: si la lista de clientes está vacía
+  | null listaClientes = "No hay clientes registrados"
+
   
