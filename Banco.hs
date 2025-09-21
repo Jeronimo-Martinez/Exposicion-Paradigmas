@@ -12,15 +12,32 @@ clientesIniciales =
     , Cliente "Carlos" "003"  200.0
     ]
 
---Esta es la función depositar
-depositar :: String -> Float -> [Cliente] -> [Cliente]       
-depositar numCuenta monto clientes = -- Recibe una cuenta, el monto y la lista de clientes 
-  map (\cliente_a_buscar -> if cuenta cliente_a_buscar== numCuenta --La función superior map, la cual transforma la lista aplicando una función a cada elemento si cumple la condición, sin modificar la lista original porque todo es inmutable. 
-              then cliente_a_buscar { saldo = saldo cliente_a_buscar + monto } -- Si se encuentra se hace una nueva versión del cliente pero con el saldo actualizado 
-              else cliente_a_buscar) clientes  -- Si no lo encuentra devuelve la lista tal y como estaba
+
+-- Esta es la función depositar
+-- La función rebice una cuenta (String), un monto a depositar(Float)y una lista de clientes (Cliente) y devuelve una lista de clientes actualizada
+
+depositar :: String -> Float -> [Cliente] -> [Cliente]
+
+-- Nombre de la función y parámetros  
+depositar numCuenta monto clientes = 
+
+  -- La función map, aplica la función actaulizarSaldo a cada cliente de la lista de clientes
+  map actualizarSaldo clientes
+
+  -- Se utiliza where para definir la función local actualizarSaldo que solo existe en la función depositar
+  where
+
+    -- la función auxiliar recibe como parámetro un cliente y devuelve ese mismo cliente o con el saldo aumentado, según el cado
+    actualizarSaldo cliente
+    
+      -- Si la cuenta coincide, se crea un nuevo cliente con los datos del encontrado pero con el saldo aumentado
+      | cuenta cliente == numCuenta = cliente { saldo = saldo cliente + monto }
+
+      -- Si no la encuentra, se devuelve el cliente sin cambios 
+      | otherwise                   = cliente
 
 
--- Se crea la función retirar
+-- Se declara el tipo de datos que recibe y devuelve la función retirar
 retirar :: String -> Float -> [Cliente] -> [Cliente]
 
 -- se ponen los nombres de los parámetros y se usa la función map
