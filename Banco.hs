@@ -1,3 +1,6 @@
+main :: IO()
+main = menu
+
 -- Se define el tipo de dato cliente 
 data Cliente = Cliente
   { nombre :: String       -- Nombre
@@ -90,4 +93,112 @@ consultarSaldo cuentaBuscar listaClientes
         [] -> -- Si filter devuelve una lista vacía significa que no existe la cuenta buscada
           "La cuenta " ++ cuentaBuscar ++ " no existe."
 
+menu :: IO()
+menu = do 
+  putStrLn""
+  putStrLn"=== Menu Banco ==="
+  putStrLn""
+  putStrLn"1. Depositar"
+  putStrLn"2. Retirar"
+  putStrLn"3. Hacer una tranferencia"
+  putStrLn"4. Consultar Saldo"
+  putStrLn"5. Salir"
+  putStrLn""
+  putStrLn"Elija una opción: "
+  opc <- getLine
   
+  case opc of 
+    "1"  -> do 
+      putStrLn""
+      putStrLn"Ingrese el numero de cuenta: "
+      numCuenta <- getLine 
+      putStrLn""
+      putStrLn"Ingrese el monto a depositar: "
+      input <- getLine
+      putStrLn""
+      let monto = read input :: Float
+      let nuevosClientes = depositar numCuenta monto clientesIniciales
+
+      if nuevosClientes == clientesIniciales
+        then do
+          putStrLn "Monto invalido... Presione Enter para continuar"
+          _ <- getLine
+          return()
+        else do
+          putStrLn "Lista de clientes actualizada:"
+          print nuevosClientes
+          _ <- getLine
+          return()
+      menu 
+        
+    "2"  -> do 
+      putStrLn""
+      putStrLn"Ingrese el numero de cuenta: "
+      numCuenta <- getLine 
+      putStrLn"Ingrese el monto a retirar: "
+      putStrLn""
+      input <- getLine
+      let monto = read input :: Float
+      let nuevosClientes = retirar numCuenta monto clientesIniciales
+
+      if nuevosClientes == clientesIniciales
+        then do 
+          putStrLn "Saldo insuficiente o monto invalido... Presione Enter para continuar"
+          _ <- getLine
+          return()
+        else do
+          putStrLn "Retiro exitoso... Presione Enter para continuar"
+          _ <- getLine
+          return()
+      putStrLn "Lista de clientes actualizada:"
+      print nuevosClientes
+      menu
+    
+    "3" -> do 
+      putStrLn""
+      putStrLn"Ingrese el numero de cuenta del remitente:"
+      numCuentaEnvia <- getLine
+      putStrLn""
+      putStrLn"Ingrese el monto:"
+      input <- getLine
+      putStrLn""
+      let monto = read input :: Float
+      putStrLn"Ingrese el numero de cuenta del destinaraio: "
+      numCuentaRec <- getLine
+      putStrLn""
+      let nuevosClientes = transferencia numCuentaEnvia numCuentaRec monto clientesIniciales
+      if nuevosClientes == clientesIniciales
+        then do
+          putStrLn "Saldo insuficiente o monto invalido... Presione Enter para continuar"
+          _ <- getLine
+          return()
+        else do
+          putStrLn "Transferencia exitosa... Presione Enter para continuar"
+          _ <- getLine
+          return()
+      putStrLn "Lista de clientes actualizada:"
+      print nuevosClientes
+      menu
+
+    "4" -> do
+      putStrLn"" 
+      putStrLn"Ingrese el numero de cuenta: "
+      numCuenta <- getLine 
+      putStrLn""
+      let saldo = consultarSaldo numCuenta clientesIniciales
+      print saldo
+      putStrLn"Presione Enter para continuar"
+      _ <- getLine
+      menu
+
+    "5" -> do 
+      putStrLn "Programa finalizado. Presiona Enter para salir..."
+      _ <- getLine   -- Espera hasta que el usuario presione Enter
+      return ()
+    
+    _ -> do
+      putStrLn""
+      putStrLn"Opcion no valida. Intente de nuevo"
+      putStrLn"Presione Enter para continuar"
+      _ <- getLine
+      menu    
